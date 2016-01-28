@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/filosofianakatemia/questionnaire-core/issues"
   },
-  "homepage": "https://github.com/filosofianakatemia/questionnaire-core#readme"
+  "homepage": "https://github.com/filosofianakatemia/questionnaire-core#readme",
+  "dependencies": {
+    "kerberos": "0.0.18",
+    "mongodb": "^2.1.4"
+  }
 }
