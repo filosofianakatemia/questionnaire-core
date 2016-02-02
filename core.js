@@ -4,26 +4,26 @@ var url = 'mongodb://localhost:27017/test';
 var ObjectId = require('mongodb').ObjectID;
 
 var core = {
-	findRestaurants : function(){
-		var data = new Array();
-		var getData = function(db, callback) {
+	findRestaurants : function(serverCallback){
+		var getDataFromDB = function(db, callback) {
+			var dataFromDB = new Array();
 			var cursor = db.collection('restaurants').find( );
 			cursor.each(function(err, doc) {
 				assert.equal(err, null);
 				if (doc != null) {
-					data.push(doc);
+					dataFromDB.push(doc);
 				} else {
-					callback();
+					callback(dataFromDB);
 				}
 			});
 		};
 		MongoClient.connect(url, function(err, db) {
 			assert.equal(null, err);
-			getData(db, function() {
+			getDataFromDB(db, function(dataFromDB) {
 				db.close();
+				serverCallback(dataFromDB);
 			});
 		});
-		return data;
 	}
 };
 
