@@ -1,23 +1,31 @@
 {
   "name": "questionnaire-core",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Core package for questionnaire",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies": {
+    "mongodb": "^2.1.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.13",
+    "babel-core": "^6.3.13",
+    "babel-plugin-syntax-async-functions": "^6.3.13",
+    "babel-plugin-syntax-async-generators": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/filosofianakatemia/questionnaire-core.git"
+  },
+  "scripts": {
+    "compile": "babel --presets stage-0 --plugins syntax-async-functions,syntax-async-generators --out-dir lib/ src/",
+    "prepublish": "npm run compile",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "filosofianakatemia",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/filosofianakatemia/questionnaire-core/issues"
   },
-  "homepage": "https://github.com/filosofianakatemia/questionnaire-core#readme",
-  "dependencies": {
-    "kerberos": "0.0.18",
-    "mongodb": "^2.1.4"
-  }
+  "homepage": "https://github.com/filosofianakatemia/questionnaire-core#readme"
 }
