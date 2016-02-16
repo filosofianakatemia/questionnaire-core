@@ -13,8 +13,16 @@ module.exports = (mongodbUrl) => {
       }, 1000)
     });
   }
+  async function putQuestionnaire() {
+    return new Promise(function(resolve, reject){
+      setTimeout(function(){
+        resolve(true);
+      }, 1000)
+    });
+  }
 
   return {
-    getQuestionnaires: getQuestionnaires
+    getQuestionnaires: getQuestionnaires,
+    putQuestionnaire: putQuestionnaire
   };
 }

@@ -18,8 +18,20 @@ module.exports = (mongodbUrl) => {
     // validateSchmema(quesitonnaires, quesionnairesSchema);
     return questionnaires;
   }
+  async function putQuestionnaire() {
+  	//let valid = validate();
+  	let valid = true;
+  	let responseFromBl = false;
+  	if (valid){
+  	  responseFromBl = await bl.putQuestionnaire();
+  	} else {
+  	//  console.log(validate.errors);
+  	}
+    return responseFromBl;
+  }
 
   return {
-    getQuestionnaires: getQuestionnaires
+    getQuestionnaires: getQuestionnaires,
+    putQuestionnaire: putQuestionnaire
   };
 }
