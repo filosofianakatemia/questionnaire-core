@@ -4,6 +4,7 @@
   "description": "Core package for questionnaire",
   "main": "index.js",
   "dependencies": {
+    "ajv": "^3.6.2",
     "mongodb": "^2.1.4"
   },
   "devDependencies": {
