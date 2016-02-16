@@ -2,7 +2,7 @@
 
 // TODO: Require JSON Schema here
 const Ajv = require('ajv');
-const schema = require('../questionnaireschema.json');
+const schema = require('./questionnaireschema.json');
 const ajv = Ajv(); // options can be passed, e.g. {allErrors: true}
 const validate = ajv.compile(schema);
 //var valid = validate(data);
