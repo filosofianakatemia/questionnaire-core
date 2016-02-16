@@ -1,98 +1,98 @@
 {
-	"$schema": "http://json-schema.org/draft-04/schema#",
-	"title": "Questionnaire schema",
-	"type": "object",
-	"properties": {
-		"uuid": {"type": "string"},
-		"modified": {"type": "string"},
-		"title": {"type": "string"},
-		"path": {"type": "string"},
-		"i18n": {
-			"type": "array",
-			"items": [
-				{
-					"type": "object",
-					"properties": {
-						"lang": {"type": "string"},
-						"title": {"type": "string"},
-						"path": {"type": "string"}
-					},
-					"required": ["lang", "title","path"]
-				}
-            ],
-            "additionalItems": false
-		},
-		"defaultLang": {"type": "string"},
-		"pages": {
-			"type": "array",
-			"items": [
-				{
-					"type": "object",
-					"properties": {
-						"elements": {
-							"type": "array",
-							"items": [
-								{
-									"type": "object",
-									"properties": {
-										"uuid": {"type": "string"},
-										"type": {"type": "string"},
-										"title": {"type": "string"},
-										"description": {"type": "string"},
-										"i18n":{
-											"type": "array",
-											"items": [
-												{
-													"type": "object",
-													"properties": {
-														"lang": {"type": "string"},
-														"title": {"type": "string"},
-														"description": {"type": "string"}
-													},
-													"required": ["lang", "title"]
-												}
-											],
-											"additionalItems": false
-										},
-										"options": {
-											"type": "array",
-											"items": [
-												{
-													"type": "object",
-													"properties": {
-														"uuid": {"type": "string"},
-														"type": {"type": "string"},
-														"title": {"type": "string"},
-														"i18n":{
-															"type": "array",
-															"items": [
-																{
-																	"type": "object",
-																	"properties": {
-																		"lang": {"type": "string"},
-																		"title": {"type": "string"}
-																	},
-																	"required": ["lang", "title"]
-																}
-															],
-															"additionalItems": false
-														}
-													},
-													"required": ["uuid","type","title","i18n"]
-												}
-											]
-										}
-									},
-									"required": ["uuid","type","title","i18n"]
-								}
-							]
-						}
-					},
-					"required": ["elements"]
-				}
-            ],
-            "additionalItems": false
-		}
-	},
-	"required": ["uuid", "modified","title","path","i18n","defaultLang"]
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Questionnaire schema",
+  "type": "object",
+  "properties": {
+  	"uuid": {"type": "string"},
+    "modified": {"type": "string"},
+	"title": {"type": "string"},
+    "path": {"type": "string"},
+	"i18n": {
+	  "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "lang": {"type": "string"},
+			"title": {"type": "string"},
+			"path": {"type": "string"}
+          },
+		  "required": ["lang", "title","path"]
+        }
+      ],
+      "additionalItems": false
+    },
+    "defaultLang": {"type": "string"},
+    "pages": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "elements": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "uuid": {"type": "string"},
+                    "type": {"type": "string"},
+                    "title": {"type": "string"},
+                    "description": {"type": "string"},
+                    "i18n":{
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "lang": {"type": "string"},
+                            "title": {"type": "string"},
+                            "description": {"type": "string"}
+                          },
+                          "required": ["lang", "title"]
+                        }
+                      ],
+                      "additionalItems": false
+                    },
+                    "options": {
+                      "type": "array",
+                      "items": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "uuid": {"type": "string"},
+                            "type": {"type": "string"},
+                            "title": {"type": "string"},
+                            "i18n":{
+                              "type": "array",
+                              "items": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                  "lang": {"type": "string"},
+                                  "title": {"type": "string"}
+                                },
+                                "required": ["lang", "title"]
+                                }
+                              ],
+                              "additionalItems": false
+                            }
+                          },
+                          "required": ["uuid","type","title","i18n"]
+                        }
+                      ]
+                    }
+                  },
+                  "required": ["uuid","type","title","i18n"]
+                }
+              ]
+            }
+          },
+          "required": ["elements"]
+        }
+      ],
+      "additionalItems": false
+    }
+  },
+  "required": ["uuid", "modified","title","path","i18n","defaultLang"]
 }
