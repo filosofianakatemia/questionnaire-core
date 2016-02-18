@@ -1,28 +1,17 @@
-
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Questionnaire schema",
   "type": "object",
   "properties": {
-
-
-
-  	"uuid": {
-    "properties":{
-      "type": { "enum": [ "disk" ] },
-      "label": {
-          "type": "string",
-          "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$”
-      }
+    "uuid": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
     },
-  },
-
-
-    "modified": {"type": "long"},
-    "created": {"type": "long"},
-	  "title": {"type": "string"},
+    "modified": {"type": "integer"},
+    "created": {"type": "integer"},
+    "title": {"type": "string"},
     "path": {"type": "string"},
-	"i18n": {
+    "i18n": {
 	  "type": "array",
       "items": [
         {
@@ -50,7 +39,10 @@
                 {
                   "type": "object",
                   "properties": {
-                    "uuid": {"type": "string"},
+                    "uuid": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+                    },
                     "type": {"type": "string"},
                     "title": {"type": "string"},
                     "description": {"type": "string"},
@@ -75,7 +67,10 @@
                         {
                           "type": "object",
                           "properties": {
-                            "uuid": {"type": "string"},
+                            "uuid": {
+                              "type": "string",
+                              "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+                            },
                             "type": {"type": "string"},
                             "title": {"type": "string"},
                             "i18n":{
@@ -84,21 +79,21 @@
                                 {
                                   "type": "object",
                                   "properties": {
-                                  "lang": {"type": "string"},
-                                  "title": {"type": "string"}
-                                },
-                                "required": ["lang"]
+                                    "lang": {"type": "string"},
+                                    "title": {"type": "string"}
+                                  },
+                                  "required": ["lang"]
                                 }
                               ],
                               "additionalItems": true
                             }
                           },
-                          "required": ["type","title","i18n"]
+                          "required": ["uuid","type","title","i18n"]
                         }
                       ]
                     }
                   },
-                  "required": ["type","title","i18n"]
+                  "required": ["uuid","type","title","i18n"]
                 }
               ]
             }
@@ -109,5 +104,5 @@
       "additionalItems": true
     }
   },
-  "required": ["title","path","i18n","defaultLang"]
+  "required": ["uuid","modified","created","title","path","i18n","defaultLang"]
 }
