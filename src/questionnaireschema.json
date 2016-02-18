@@ -12,16 +12,16 @@
     "title": {"type": "string"},
     "path": {"type": "string"},
     "i18n": {
-	  "type": "array",
+      "type": "array",
       "items": [
         {
           "type": "object",
           "properties": {
             "lang": {"type": "string"},
-			"title": {"type": "string"},
-			"path": {"type": "string"}
+            "title": {"type": "string"},
+            "path": {"type": "string"}
           },
-		  "required": ["lang"]
+          "required": ["lang"]
         }
       ],
       "additionalItems": true
