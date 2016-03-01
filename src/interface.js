@@ -18,14 +18,15 @@ module.exports = (mongodbUrl) => {
     // validateSchmema(quesitonnaires, quesionnairesSchema);
     return questionnaires;
   }
-  async function putQuestionnaire() {
-  	//let valid = validate();
-  	let valid = true;
+  async function putQuestionnaire(payload) {
+  	
+  	
+  	let valid = validate(payload);
   	let responseFromBl = false;
   	if (valid){
   	  responseFromBl = await bl.putQuestionnaire();
   	} else {
-  	//  console.log(validate.errors);
+  	  console.log(validate.errors);
   	}
     return responseFromBl;
   }
