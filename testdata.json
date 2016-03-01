@@ -1,0 +1,56 @@
+{
+  "uuid": "PLACEHOLDER",
+  "created": 1234567,
+  "modified": 1234567,
+  "title": "Example questionnaire",
+  "path": "example-questionnaire",
+  "i18n": [{
+    "lang": "fi",
+    "title": "Esimerkkikysely",
+    "path": "esimerkkikysely"
+  }],
+  "defaultLang": "en",
+  "pages": [{
+	"elements": [
+	  {
+		"uuid": "PLACEHOLDER",
+	    "type": "TEXT_SECTION",
+	    "title": "Welcome to the questionnaire",
+	    "description": "Answering is mandatory",
+	    "i18n": [{
+          "lang": "fi",
+          "title": "Tervetuloa kyselyyn",
+          "description": "Vastaaminen on pakollista"
+	    }]
+	  },
+	  {
+		"uuid": "PLACEHOLDER",
+	    "type": "MULTIPLE_CHOICE",
+	    "title": "Gender",
+	    "i18n": [{
+          "lang": "fi",
+          "title": "Sukupuoli"
+	    }],
+	    "options": [{
+			"uuid": "PLACEHOLDER",
+	      	"type": "CHOICE",
+	      	"title": "Male",
+	      	"i18n": [{
+	          "lang": "fi",
+	          "title": "Mies"
+		    }]
+	      },
+	      {
+			"uuid": "PLACEHOLDER",  
+	      	"type": "CHOICE",
+	      	"title": "Female",
+	      	"i18n": [{
+	          "lang": "fi",
+	          "title": "Nainen"
+		    }]
+	      }
+	    ]
+	  }
+	]
+  }]
+}
