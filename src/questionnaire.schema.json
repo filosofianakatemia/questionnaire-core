@@ -90,12 +90,14 @@
                           },
                           "required": ["uuid","type","title","i18n"]
                         }
-                      ]
+                      ],
+                      "additionalItems": true
                     }
                   },
                   "required": ["uuid","type","title","i18n"]
                 }
-              ]
+              ],
+              "additionalItems": true
             }
           },
           "required": ["elements"]
@@ -104,5 +106,5 @@
       "additionalItems": true
     }
   },
-  "required": ["uuid","modified","created","title","path","i18n","defaultLang"]
+  "required": ["uuid","modified","created","title","path","i18n","defaultLang","pages"]
 }
