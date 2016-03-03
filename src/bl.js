@@ -13,11 +13,20 @@ module.exports = (mongodbUrl) => {
       }, 1000)
     });
   }
-  async function putQuestionnaire() {
+  async function putQuestionnaire(payload) {
     return new Promise(function(resolve, reject){
-      setTimeout(function(){
-        resolve(true);
-      }, 1000)
+      let insertQuestionnaire = function(db, callback) {
+        db.collection('questionnaires').insertOne(payload, function(err, result) {
+          console.log("Inserted a questionnaire into the questionnaires collection.");
+          callback();
+        });
+      };
+      MongoClient.connect(mongodbUrl, function(err, db) {
+        insertQuestionnaire(db, function() {
+          db.close();
+        });
+      });
+      resolve(payload.uuid);
     });
   }
 

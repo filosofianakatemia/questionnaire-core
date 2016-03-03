@@ -27,10 +27,10 @@ module.exports = (mongodbUrl) => {
   	//let genValidate = ajv.compile(genSchema);
     //if(genValidate(payload)){  //Option 1 for validating payload before generating, Using schema
   	
-    //if('uuid' in payload &&    //Option 2 for validating payload before generating, Using if 
-  	//   'created' in payload && 
-  	//   'modified' in payload && 
-  	//   'pages' in payload){ // Check if payload has required properties
+    if('uuid' in payload &&    //Option 2 for validating payload before generating, Using if 
+  	  'created' in payload && 
+  	  'modified' in payload && 
+      'pages' in payload){ // Check if payload has required properties
   	  let currentTime = Date.now();
   	  payload.created = currentTime; 
   	  payload.modified = currentTime;
@@ -38,22 +38,22 @@ module.exports = (mongodbUrl) => {
   	  payload.uuid = createUuid(); // Generate UUID for Questionnaire
   	  
   	  for(let i = 0;i < payload.pages.length; i++){ // Go through all pages
-  	  	//if('elements' in payload.pages[i]){ // Check if a page has 'elements'
+  	  	if('elements' in payload.pages[i]){ // Check if a page has 'elements'
   		  let pageElements = payload.pages[i].elements; // Get elements of a page
   		  for(let a = 0; a < pageElements.length; a++){ // Go through all elements
-  		  	//if('uuid' in pageElements[a]){ // Check if an element has 'uuid'
+  		  	if('uuid' in pageElements[a]){ // Check if an element has 'uuid'
   		      pageElements[a].uuid = createUuid(); // Generate UUID for an element
   		      if ('options' in pageElements[a]){ // Check if an element has options
   		        let elementOptions = pageElements[a].options; // Get options of an element
   			    for(let e = 0; e < elementOptions.length;e++){ // Go through all options
-  			      //if('uuid' in elementOptions[e]){ // Check if an option has 'uuid'
+  			      if('uuid' in elementOptions[e]){ // Check if an option has 'uuid'
   			        elementOptions[e].uuid = createUuid(); // Generate UUID for an option
-  			      //}
+  			      }
   			    }
   		      }
-  		    //}
+  		    }
   		  }
-  	    //}
+  	    }
   	  }
   	}
   	return payload;
@@ -72,7 +72,7 @@ module.exports = (mongodbUrl) => {
   	let valid = validate(payload);
   	let responseFromBl = false;
   	if (valid){
-  	  responseFromBl = await bl.putQuestionnaire();
+  	  responseFromBl = await bl.putQuestionnaire(payload);
   	} else {
   	  console.log(validate.errors);
   	}
