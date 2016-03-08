@@ -95,8 +95,8 @@ module.exports = (mongodbUrl) => {
     let responseFromBl = await bl.getQuestionnaire(uuid);
     let valid = validate(responseFromBl);
     if(!valid){
-      responseFromBl = false;
       console.log("Invalid questionnaire in database, uuid: "+responseFromBl+" \n"+validate.errors);
+      responseFromBl = false;
     }
     return responseFromBl;
   }
