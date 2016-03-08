@@ -26,7 +26,7 @@ module.exports = (mongodbUrl) => {
       });
     });
   }
-  
+
   async function putQuestionnaire(payload) {
     return new Promise(function(resolve, reject){
       let insertQuestionnaire = function(db, callback) {
@@ -38,7 +38,7 @@ module.exports = (mongodbUrl) => {
       MongoClient.connect(mongodbUrl, function(err, db) {
         insertQuestionnaire(db, function() {
           db.close();
-          
+
           let returnJson = new Object();
           returnJson.uuid = payload.uuid;
           returnJson.created = payload.created;
@@ -48,7 +48,7 @@ module.exports = (mongodbUrl) => {
       });
     });
   }
-  
+
   async function deleteQuestionnaire(uuid){
     return new Promise(function(resolve, reject){
       let deleteQuestionnaire = function(db, callback) {
@@ -73,9 +73,36 @@ module.exports = (mongodbUrl) => {
     });
   }
 
+  async function getQuestionnaire(uuid){
+    return new Promise(function(resolve, reject){
+      let getQuestionnaire = function(db, callback) {
+        db.collection('questionnaires').findOne(
+          { "uuid": uuid },
+          function(err, results) {
+            let result = false;
+
+          /*  if(results.deletedCount > 0){
+              result = true;
+              console.log("GET questionnaire, uuid: "+uuid);
+            }*/
+
+            callback(result);
+          }
+        );
+      };
+      MongoClient.connect(mongodbUrl, function(err, db) {
+        getQuestionnaire(db, function(result) {
+          db.close();
+          resolve(result);
+        });
+      });
+    });
+  }
+
   return {
     getQuestionnaires: getQuestionnaires,
     putQuestionnaire: putQuestionnaire,
-    deleteQuestionnaire: deleteQuestionnaire
+    deleteQuestionnaire: deleteQuestionnaire,
+    getQuestionnaire: getQuestionnaire
   };
 }

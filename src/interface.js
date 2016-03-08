@@ -11,14 +11,14 @@ const validate = ajv.compile(schema);
 module.exports = (mongodbUrl) => {
 
   const bl = require('./bl.js')(mongodbUrl);
-  
+
   function createUuid(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
       return v.toString(16);
     });
   }
-  
+
   /*
   Generates UUID and Timestamps for a new questionnaire
   */
@@ -26,17 +26,17 @@ module.exports = (mongodbUrl) => {
   	//let genSchema = require('./generator.schema.json');
   	//let genValidate = ajv.compile(genSchema);
     //if(genValidate(payload)){  //Option 1 for validating payload before generating, Using schema
-  	
-    if('uuid' in payload &&    //Option 2 for validating payload before generating, Using if 
-  	  'created' in payload && 
-  	  'modified' in payload && 
+
+    if('uuid' in payload &&    //Option 2 for validating payload before generating, Using if
+  	  'created' in payload &&
+  	  'modified' in payload &&
       'pages' in payload){ // Check if payload has required properties
   	  let currentTime = Date.now();
-  	  payload.created = currentTime; 
+  	  payload.created = currentTime;
   	  payload.modified = currentTime;
-  	
+
   	  payload.uuid = createUuid(); // Generate UUID for Questionnaire
-  	  
+
   	  for(let i = 0;i < payload.pages.length; i++){ // Go through all pages
   	  	if('elements' in payload.pages[i]){ // Check if a page has 'elements'
   		  let pageElements = payload.pages[i].elements; // Get elements of a page
@@ -58,7 +58,7 @@ module.exports = (mongodbUrl) => {
   	}
   	return payload;
   }
-  
+
   async function getQuestionnaires() {
     let questionnaires = await bl.getQuestionnaires();
     let validQuestionnaires = new Array();
@@ -72,10 +72,10 @@ module.exports = (mongodbUrl) => {
     }
     return validQuestionnaires;
   }
-  
+
   async function putQuestionnaire(payload) {
   	payload = generateUuidsAndTimestamps(payload)
-  	
+
   	let valid = validate(payload);
   	let responseFromBl = false;
   	if (valid){
@@ -85,15 +85,21 @@ module.exports = (mongodbUrl) => {
   	}
     return responseFromBl;
   }
-  
+
   async function deleteQuestionnaire(uuid){
     let responseFromBl = await bl.deleteQuestionnaire(uuid);
+    return responseFromBl;
+  }
+
+  async function getQuestionnaire(uuid){
+    let responseFromBl = await bl.getQuestionnaire(uuid);
     return responseFromBl;
   }
 
   return {
     getQuestionnaires: getQuestionnaires,
     putQuestionnaire: putQuestionnaire,
-    deleteQuestionnaire: deleteQuestionnaire
+    deleteQuestionnaire: deleteQuestionnaire,
+    getQuestionnaire: getQuestionnaire
   };
 }
