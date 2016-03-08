@@ -85,9 +85,15 @@ module.exports = (mongodbUrl) => {
   	}
     return responseFromBl;
   }
+  
+  async function deleteQuestionnaire(uuid){
+    let responseFromBl = await bl.deleteQuestionnaire(uuid);
+    return responseFromBl;
+  }
 
   return {
     getQuestionnaires: getQuestionnaires,
-    putQuestionnaire: putQuestionnaire
+    putQuestionnaire: putQuestionnaire,
+    deleteQuestionnaire: deleteQuestionnaire
   };
 }
