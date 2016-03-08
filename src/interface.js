@@ -93,6 +93,11 @@ module.exports = (mongodbUrl) => {
 
   async function getQuestionnaire(uuid){
     let responseFromBl = await bl.getQuestionnaire(uuid);
+    let valid = validate(responseFromBl);
+    if(!valid){
+      responseFromBl = false;
+      console.log("Invalid questionnaire indatabase, uuid: "+questionnaires[i].uuid+" \n"+validate.errors);
+    }
     return responseFromBl;
   }
 

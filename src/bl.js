@@ -79,15 +79,7 @@ module.exports = (mongodbUrl) => {
         db.collection('questionnaires').findOne(
           { "uuid": uuid },
           function(err, doc) {
-            let result = false;
-            console.log(doc);
-
-          /*  if(results.deletedCount > 0){
-              result = true;
-              console.log("GET questionnaire, uuid: "+uuid);
-            }*/
-
-            callback(result);
+            callback(doc);
           }
         );
       };
