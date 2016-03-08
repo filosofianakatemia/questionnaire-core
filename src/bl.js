@@ -78,8 +78,9 @@ module.exports = (mongodbUrl) => {
       let getQuestionnaire = function(db, callback) {
         db.collection('questionnaires').findOne(
           { "uuid": uuid },
-          function(err, results) {
+          function(err, doc) {
             let result = false;
+            console.log(doc);
 
           /*  if(results.deletedCount > 0){
               result = true;
