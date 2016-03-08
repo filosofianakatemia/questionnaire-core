@@ -58,6 +58,15 @@ module.exports = (mongodbUrl) => {
   	}
   	return payload;
   }
+  
+  /*
+  Check if given UUID is valid UUID
+  */
+  function TestUuid(uuid){
+    let pattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    let isValid =  pattern.test(uuid);
+    return isValid;
+  }
 
   async function getQuestionnaires() {
     let questionnaires = await bl.getQuestionnaires();
@@ -65,7 +74,8 @@ module.exports = (mongodbUrl) => {
     for(let i = 0;i<questionnaires.length;i++){
       let valid = validate(questionnaires[i]);
       if (!valid){
-        console.log("Invalid questionnaire in database, uuid: "+questionnaires[i].uuid+" \n"+validate.errors);
+        console.log("INVALID QUESTIONNAIRE in database, uuid: "+questionnaires[i].uuid);
+        console.log(validate.errors);
   	  } else {
   	    validQuestionnaires.push(questionnaires[i]);
   	  }
@@ -87,16 +97,34 @@ module.exports = (mongodbUrl) => {
   }
 
   async function deleteQuestionnaire(uuid){
-    let responseFromBl = await bl.deleteQuestionnaire(uuid);
+  	let isValidUuid = TestUuid(uuid);
+  	let responseFromBl = false;
+  	if(isValidUuid){
+      responseFromBl = await bl.deleteQuestionnaire(uuid);
+    } else {
+      console.log("INVALID UUID in deleteQuestionnaire, requested uuid: "+uuid);
+    }
     return responseFromBl;
   }
 
   async function getQuestionnaire(uuid){
-    let responseFromBl = await bl.getQuestionnaire(uuid);
-    let valid = validate(responseFromBl);
-    if(!valid){
-      console.log("Invalid questionnaire in database, uuid: "+responseFromBl+" \n"+validate.errors);
-      responseFromBl = false;
+  	let isValidUuid = TestUuid(uuid);
+  	let responseFromBl = false;
+  	if(isValidUuid){
+      responseFromBl = await bl.getQuestionnaire(uuid);
+      if(responseFromBl == uuid){
+        console.log("NOT FOUND in getQuestionnaire, uuid: "+responseFromBl);
+        responseFromBl = false;
+      } else {
+        let valid = validate(responseFromBl);
+        if(!valid){
+          console.log("INVALID QUESTIONNAIRE in database, uuid: "+responseFromBl);
+          console.log(validate.errors);
+          responseFromBl = false;
+        }
+      }
+    } else {
+      console.log("INVALID UUID in getQuestionnaire, requested uuid: "+uuid);
     }
     return responseFromBl;
   }
