@@ -80,6 +80,11 @@ module.exports = (mongodbUrl) => {
           { "uuid": uuid },
           function(err, doc) {
             callback(doc);
+            if(doc == null){
+              callback(uuid);
+            }else{
+              callback(doc);
+            }
           }
         );
       };
