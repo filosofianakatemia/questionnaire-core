@@ -61,9 +61,16 @@ module.exports = (mongodbUrl) => {
   
   async function getQuestionnaires() {
     let questionnaires = await bl.getQuestionnaires();
-    // TODO: Perhaps validate also outgoing response?
-    // validateSchmema(quesitonnaires, quesionnairesSchema);
-    return questionnaires;
+    let validQuestionnaires = new Array();
+    for(let i = 0;i<questionnaires.length;i++){
+      let valid = validate(questionnaires[i]);
+      if (!valid){
+        console.log("Invalid questionnaire in database, uuid: "+questionnaires[i].uuid+" \n"+validate.errors);
+  	  } else {
+  	    validQuestionnaires.push(questionnaires[i]);
+  	  }
+    }
+    return validQuestionnaires;
   }
   
   async function putQuestionnaire(payload) {

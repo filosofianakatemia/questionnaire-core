@@ -6,7 +6,6 @@ const ObjectId = require('mongodb').ObjectID;
 module.exports = (mongodbUrl) => {
 
   async function getQuestionnaires() {
-    // TODO: Mongodb-kutsu
     return new Promise(function(resolve, reject){
       let findQuestionnaires = function(db, callback) {
       	let resultsArray = new Array();
@@ -22,7 +21,7 @@ module.exports = (mongodbUrl) => {
       MongoClient.connect(mongodbUrl, function(err, db) {
         findQuestionnaires(db, function(resultsArray) {
           db.close();
-          resolve(JSON.stringify(resultsArray));
+          resolve(resultsArray);
         });
       });
     });
