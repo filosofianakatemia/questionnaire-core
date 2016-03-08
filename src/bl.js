@@ -26,7 +26,12 @@ module.exports = (mongodbUrl) => {
           db.close();
         });
       });
-      resolve(payload.uuid);
+      
+      let returnJson = new Object();
+      returnJson.uuid = payload.uuid;
+      returnJson.created = payload.created;
+      returnJson.modified = payload.modified;
+      resolve(JSON.stringify(returnJson));
     });
   }
 
