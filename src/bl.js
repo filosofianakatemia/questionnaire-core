@@ -153,6 +153,56 @@ module.exports = (mongodbUrl) => {
       });
     });
   }
+  
+  async function updateQuestionnaire(uuid,payload){
+    return new Promise(function(resolve, reject){
+      let closeQuestionnaire = function(db, callback) {
+        db.collection('questionnaires').findOne(
+          { "uuid": uuid },
+          function(err, doc) {
+            if(doc == null){
+              callback(uuid);
+            }else{
+              payload.enabled = doc.enabled;
+              let id = doc._id;
+              db.collection('questionnaires').deleteOne(
+               { "uuid": uuid },
+               function(err, results) {
+                 
+               }
+              );
+              db.collection('questionnaires').insertOne(payload, function(err, result) {
+                console.log("UPDATE questionnaire, uuid: "+payload.uuid);
+                db.collection('questionnaires').updateOne(
+                { "uuid": uuid },
+                {
+                  $set: { "_id": id}
+                }, function(err, results) {
+                  
+                });
+                callback(payload.modified);
+              });
+
+              /*
+              db.collection('questionnaires').replaceOne(
+                { "uuid": uuid },
+                payload, 
+                function(err, results) {
+                  callback(payload.modified);
+              });
+              */
+            }
+          }
+        );
+      };
+      MongoClient.connect(mongodbUrl, function(err, db) {
+        closeQuestionnaire(db, function(result) {
+          db.close();
+          resolve(result);
+        });
+      });
+    });
+  }
 
   return {
     getQuestionnaires: getQuestionnaires,
@@ -160,6 +210,7 @@ module.exports = (mongodbUrl) => {
     deleteQuestionnaire: deleteQuestionnaire,
     getQuestionnaire: getQuestionnaire,
     deployQuestionnaire: deployQuestionnaire,
-    closeQuestionnaire: closeQuestionnaire
+    closeQuestionnaire: closeQuestionnaire,
+    updateQuestionnaire: updateQuestionnaire
   };
 }
