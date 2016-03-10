@@ -89,6 +89,7 @@ module.exports = (mongodbUrl) => {
   	let valid = validate(payload);
   	let responseFromBl = false;
   	if (valid){
+  	  payload["enabled"] = false;
   	  responseFromBl = await bl.putQuestionnaire(payload);
   	} else {
   	  console.log(validate.errors);
@@ -128,11 +129,47 @@ module.exports = (mongodbUrl) => {
     }
     return responseFromBl;
   }
+  
+  async function deployQuestionnaire(uuid){
+    let isValidUuid = TestUuid(uuid);
+    let responseFromBl = false;
+    if(isValidUuid){
+      responseFromBl = await bl.deployQuestionnaire(uuid);
+      if(responseFromBl == uuid){
+        console.log("NOT FOUND in deployQuestionnaire, uuid: "+responseFromBl);
+        responseFromBl = false;
+      } else {
+        responseFromBl = true;
+      }
+    } else {
+      console.log("INVALID UUID in deployQuestionnaire, requested uuid: "+uuid);
+    }
+    return responseFromBl;
+  }
+  
+  async function closeQuestionnaire(uuid){
+    let isValidUuid = TestUuid(uuid);
+    let responseFromBl = false;
+    if(isValidUuid){
+      responseFromBl = await bl.closeQuestionnaire(uuid);
+      if(responseFromBl == uuid){
+        console.log("NOT FOUND in closeQuestionnaire, uuid: "+responseFromBl);
+        responseFromBl = false;
+      } else {
+        responseFromBl = true;
+      }
+    } else {
+      console.log("INVALID UUID in closeQuestionnaire, requested uuid: "+uuid);
+    }
+    return responseFromBl;
+  }
 
   return {
     getQuestionnaires: getQuestionnaires,
     putQuestionnaire: putQuestionnaire,
     deleteQuestionnaire: deleteQuestionnaire,
-    getQuestionnaire: getQuestionnaire
+    getQuestionnaire: getQuestionnaire,
+    deployQuestionnaire: deployQuestionnaire,
+    closeQuestionnaire: closeQuestionnaire
   };
 }

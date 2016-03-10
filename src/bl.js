@@ -95,11 +95,71 @@ module.exports = (mongodbUrl) => {
       });
     });
   }
+  
+  async function deployQuestionnaire(uuid){
+    return new Promise(function(resolve, reject){
+      let deployQuestionnaire = function(db, callback) {
+        db.collection('questionnaires').findOne(
+          { "uuid": uuid },
+          function(err, doc) {
+            if(doc == null){
+              callback(uuid);
+            }else{
+              db.collection('questionnaires').updateOne(
+                { "uuid": uuid },
+                {
+                  $set: { "enabled": true, "modified": Date.now() }
+                }, function(err, results) {
+                  callback(true);
+              });
+            }
+          }
+        );
+      };
+      MongoClient.connect(mongodbUrl, function(err, db) {
+        deployQuestionnaire(db, function(result) {
+          db.close();
+          resolve(result);
+        });
+      });
+    });
+  }
+  
+  async function closeQuestionnaire(uuid){
+    return new Promise(function(resolve, reject){
+      let closeQuestionnaire = function(db, callback) {
+        db.collection('questionnaires').findOne(
+          { "uuid": uuid },
+          function(err, doc) {
+            if(doc == null){
+              callback(uuid);
+            }else{
+              db.collection('questionnaires').updateOne(
+                { "uuid": uuid },
+                {
+                  $set: { "enabled": false, "modified": Date.now() }
+                }, function(err, results) {
+                  callback(true);
+              });
+            }
+          }
+        );
+      };
+      MongoClient.connect(mongodbUrl, function(err, db) {
+        closeQuestionnaire(db, function(result) {
+          db.close();
+          resolve(result);
+        });
+      });
+    });
+  }
 
   return {
     getQuestionnaires: getQuestionnaires,
     putQuestionnaire: putQuestionnaire,
     deleteQuestionnaire: deleteQuestionnaire,
-    getQuestionnaire: getQuestionnaire
+    getQuestionnaire: getQuestionnaire,
+    deployQuestionnaire: deployQuestionnaire,
+    closeQuestionnaire: closeQuestionnaire
   };
 }
