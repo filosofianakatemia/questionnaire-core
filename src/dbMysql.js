@@ -44,6 +44,12 @@ module.exports = (dbUrl) => {
     });
   }
   
+  async function getQuestions(lang,path){
+    return new Promise(function(resolve, reject){
+      resolve(null);
+    });
+  }
+  
   return {
     getQuestionnaires: getQuestionnaires,
     putQuestionnaire: putQuestionnaire,
@@ -51,6 +57,7 @@ module.exports = (dbUrl) => {
     getQuestionnaire: getQuestionnaire,
     deployQuestionnaire: deployQuestionnaire,
     closeQuestionnaire: closeQuestionnaire,
-    updateQuestionnaire: updateQuestionnaire
+    updateQuestionnaire: updateQuestionnaire,
+    getQuestions: getQuestions
   };
 }

@@ -183,6 +183,29 @@ module.exports = (dbUrl) => {
     });
   }
   
+  async function getQuestions(lang,path){
+    return new Promise(function(resolve, reject){
+      let getQuestionnaire = function(db, callback) {
+        db.collection('questionnaires').findOne(
+          { "path": path },
+          function(err, doc) {
+            if(doc == null){
+              callback(path);
+            }else{
+              callback(doc);
+            }
+          }
+        );
+      };
+      MongoClient.connect(dbUrl, function(err, db) {
+        getQuestionnaire(db, function(result) {
+          db.close();
+          resolve(result);
+        });
+      });
+    });
+  }
+  
   return {
     getQuestionnaires: getQuestionnaires,
     putQuestionnaire: putQuestionnaire,
@@ -190,6 +213,7 @@ module.exports = (dbUrl) => {
     getQuestionnaire: getQuestionnaire,
     deployQuestionnaire: deployQuestionnaire,
     closeQuestionnaire: closeQuestionnaire,
-    updateQuestionnaire: updateQuestionnaire
+    updateQuestionnaire: updateQuestionnaire,
+    getQuestions: getQuestions
   };
 }

@@ -198,6 +198,12 @@ module.exports = (dbUrl,usedDatabase) => {
     }
     return responseFromBl;
   }
+  
+  async function getQuestions(lang,path){
+    let responseFromBl = false;
+    responseFromBl = await bl.getQuestions(lang,path);
+    return responseFromBl;
+  }
 
   return {
     getQuestionnaires: getQuestionnaires,
@@ -206,6 +212,7 @@ module.exports = (dbUrl,usedDatabase) => {
     getQuestionnaire: getQuestionnaire,
     deployQuestionnaire: deployQuestionnaire,
     closeQuestionnaire: closeQuestionnaire,
-    updateQuestionnaire: updateQuestionnaire
+    updateQuestionnaire: updateQuestionnaire,
+    getQuestions: getQuestions
   };
 }

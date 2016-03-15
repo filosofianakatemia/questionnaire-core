@@ -38,6 +38,11 @@ module.exports = (dbUrl,usedDatabase) => {
     let results = await database.updateQuestionnaire(uuid,payload);
     return results; 
   }
+  
+  async function getQuestions(lang,path){
+    let results = await database.getQuestions(lang,path);
+    return results;
+  }
 
   return {
     getQuestionnaires: getQuestionnaires,
@@ -46,6 +51,7 @@ module.exports = (dbUrl,usedDatabase) => {
     getQuestionnaire: getQuestionnaire,
     deployQuestionnaire: deployQuestionnaire,
     closeQuestionnaire: closeQuestionnaire,
-    updateQuestionnaire: updateQuestionnaire
+    updateQuestionnaire: updateQuestionnaire,
+    getQuestions: getQuestions
   };
 }
