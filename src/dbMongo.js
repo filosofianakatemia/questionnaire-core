@@ -157,14 +157,6 @@ module.exports = (dbUrl) => {
   async function updateQuestionnaire(uuid,payload) {
     return new Promise(function(resolve, reject){
       let closeQuestionnaire = function(db, callback) {
-      	/*
-        db.collection('questionnaires').replaceOne(
-          { "uuid": uuid },
-          payload, 
-          function(err, results) {
-            callback(payload.modified);
-        });
-        */
         db.collection('questionnaires').findOne(
           { "uuid": uuid },
           function(err, doc) {
@@ -172,15 +164,11 @@ module.exports = (dbUrl) => {
               callback(uuid);
             }else{
               payload.enabled = doc.enabled;
-              db.collection('questionnaires').deleteOne(
-               { "uuid": uuid },
-               function(err, results) {
-                 
-               }
-              );
-              db.collection('questionnaires').insertOne(payload, function(err, result) {
-                console.log("UPDATE questionnaire, uuid: "+payload.uuid);
-                callback(payload.modified);
+              db.collection('questionnaires').replaceOne(
+                { "uuid": uuid },
+                payload,
+                function(err, results) {
+                  callback(payload.modified);
               });
             }
           }
