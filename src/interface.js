@@ -8,9 +8,9 @@ const validate = ajv.compile(schema);
 //var valid = validate(data);
 //if (!valid) console.log(validate.errors);
 
-module.exports = (mongodbUrl) => {
+module.exports = (dbUrl,usedDatabase) => {
 
-  const bl = require('./bl.js')(mongodbUrl);
+  const bl = require('./bl.js')(dbUrl,usedDatabase);
 
   function createUuid(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
