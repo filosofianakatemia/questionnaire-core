@@ -27,26 +27,77 @@ module.exports = (dbUrl) => {
     });
   }
   
-  async function putQuestionnaire(payload) {
-    return new Promise(function(resolve, reject){
-      let insertQuestionnaire = function(db, callback) {
-        db.collection('questionnaires').insertOne(payload, function(err, result) {
-          console.log("INSERT questionnaire, uuid: "+payload.uuid);
-          callback();
-        });
-      };
+  async function pathExists(path,isI18n){
+  	return new Promise(function(resolve, reject){
+    if(!isI18n){
       MongoClient.connect(dbUrl, function(err, db) {
-        insertQuestionnaire(db, function() {
-          db.close();
-
-          let returnJson = new Object();
-          returnJson.uuid = payload.uuid;
-          returnJson.created = payload.created;
-          returnJson.modified = payload.modified;
-          resolve(JSON.stringify(returnJson));
+        db.collection('questionnaires').findOne({"path": path}, function(err,doc){
+          if(doc != null){
+            resolve(true);
+          } else {
+            resolve(false);
+          }
         });
       });
+    } else {
+      MongoClient.connect(dbUrl, function(err, db) {
+        db.collection('questionnaires').findOne({"i18n.path": path}, function(err,doc){
+          if(doc != null){
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+      });
+    }
     });
+  };
+  
+  async function putQuestionnaire(payload) {
+  	let doesPathExist = await pathExists(payload.path,false);
+  	
+  	if(doesPathExist){
+      return new Promise(function(resolve, reject){
+      	resolve(false);	  
+      });
+    } else {
+  	  let iterations = payload.i18n.length;
+  	  let pathExistBooleanContainer = false;
+  	  
+  	  for(let i = 0;i<payload.i18n.length;i++){
+  	  	doesPathExist = await pathExists(payload.i18n[i].path,true);  
+  	  	if(doesPathExist){
+  	  	  pathExistBooleanContainer = true;
+  	  	}
+  	  	if((i+1) == iterations){
+  	  	  if(!pathExistBooleanContainer){
+            return new Promise(function(resolve, reject){
+              let insertQuestionnaire = function(db, callback) {
+                db.collection('questionnaires').insertOne(payload, function(err, result) {
+                  console.log("INSERT questionnaire, uuid: "+payload.uuid);
+                  callback();
+                });
+              };
+              MongoClient.connect(dbUrl, function(err, db) {
+      	        insertQuestionnaire(db, function() {
+                  db.close();
+
+                  let returnJson = new Object();
+                  returnJson.uuid = payload.uuid;
+                  returnJson.created = payload.created;
+                  returnJson.modified = payload.modified;
+                  resolve(JSON.stringify(returnJson));
+                });
+              });
+            });
+          } else {
+            return new Promise(function(resolve, reject){
+      	      resolve(false);	  
+            });
+          }
+        }
+      }
+    }
   }
   
   async function deleteQuestionnaire(uuid) {

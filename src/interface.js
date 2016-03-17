@@ -100,6 +100,9 @@ module.exports = (dbUrl,usedDatabase) => {
   	if (valid){
   	  payload["enabled"] = false;
   	  responseFromBl = await bl.putQuestionnaire(payload);
+  	  if(!responseFromBl){
+  	    console.log("PATH ALREADY EXISTS in putQuestionnaire");
+  	  }
   	} else {
   	  console.log("INVALID QUESTIONNAIRE in putQuestionnaire");
   	  console.log(validate.errors);
