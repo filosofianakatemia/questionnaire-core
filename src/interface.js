@@ -44,7 +44,7 @@ module.exports = (dbUrl,usedDatabase) => {
   }
 
   async function putQuestionnaire(payload) {
-  	payload = bl.generateUuidsAndTimestamps(payload)
+  	payload = generateUuidsAndTimestamps(payload)
 
   	let valid = validate(payload);
   	let responseFromBl = false;
@@ -135,7 +135,7 @@ module.exports = (dbUrl,usedDatabase) => {
     }
     let responseFromBl = false;
     if(isValidUuid){
-      bl.generateUuidsAndTimestamps(payload); // Generate UUIDs for new elements
+      generateUuidsAndTimestamps(payload); // Generate UUIDs for new elements
       let valid = validate(payload);
       if(!valid){
         console.log("INVALID QUESTIONNAIRE in putQuestionnaire");
