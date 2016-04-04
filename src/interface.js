@@ -20,55 +20,6 @@ module.exports = (dbUrl,usedDatabase) => {
   }
 
   /*
-  Generates UUID and Timestamps for a questionnaire
-  */
-  function generateUuidsAndTimestamps(payload){
-  	//let genSchema = require('./generator.schema.json');
-  	//let genValidate = ajv.compile(genSchema);
-    //if(genValidate(payload)){  //Option 1 for validating payload before generating, Using schema
-
-    if('uuid' in payload &&    //Option 2 for validating payload before generating, Using if
-  	  'created' in payload &&
-  	  'modified' in payload &&
-      'pages' in payload){ // Check if payload has required properties
-  	  let currentTime = Date.now();
-  	  if(payload.created == 1234567){
-  	    payload.created = currentTime;
-  	  }
-  	  
-  	  payload.modified = currentTime;
-      
-  	  if(payload.uuid == "PLACEHOLDER"){
-  	    payload.uuid = createUuid(); // Generate UUID for Questionnaire
-  	  }
-
-  	  for(let i = 0;i < payload.pages.length; i++){ // Go through all pages
-  	  	if('elements' in payload.pages[i]){ // Check if a page has 'elements'
-  		  let pageElements = payload.pages[i].elements; // Get elements of a page
-  		  for(let a = 0; a < pageElements.length; a++){ // Go through all elements
-  		  	if('uuid' in pageElements[a]){ // Check if an element has 'uuid'
-  		  	  if(pageElements[a].uuid == "PLACEHOLDER"){
-  		        pageElements[a].uuid = createUuid(); // Generate UUID for an element
-  		      }
-  		      if ('options' in pageElements[a]){ // Check if an element has options
-  		        let elementOptions = pageElements[a].options; // Get options of an element
-  			    for(let e = 0; e < elementOptions.length;e++){ // Go through all options
-  			      if('uuid' in elementOptions[e]){ // Check if an option has 'uuid'
-  			      	if(elementOptions[e].uuid == "PLACEHOLDER"){
-  			          elementOptions[e].uuid = createUuid(); // Generate UUID for an option
-  			        }
-  			      }
-  			    }
-  		      }
-  		    }
-  		  }
-  	    }
-  	  }
-  	}
-  	return payload;
-  }
-  
-  /*
   Check if given UUID is valid UUID
   */
   function TestUuid(uuid){
@@ -93,7 +44,7 @@ module.exports = (dbUrl,usedDatabase) => {
   }
 
   async function putQuestionnaire(payload) {
-  	payload = generateUuidsAndTimestamps(payload)
+  	payload = bl.generateUuidsAndTimestamps(payload)
 
   	let valid = validate(payload);
   	let responseFromBl = false;
@@ -142,7 +93,7 @@ module.exports = (dbUrl,usedDatabase) => {
     }
     return responseFromBl;
   }
-  
+
   async function deployQuestionnaire(uuid){
     let isValidUuid = TestUuid(uuid);
     let responseFromBl = false;
@@ -159,7 +110,7 @@ module.exports = (dbUrl,usedDatabase) => {
     }
     return responseFromBl;
   }
-  
+
   async function closeQuestionnaire(uuid){
     let isValidUuid = TestUuid(uuid);
     let responseFromBl = false;
@@ -176,7 +127,7 @@ module.exports = (dbUrl,usedDatabase) => {
     }
     return responseFromBl;
   }
-  
+
   async function updateQuestionnaire(uuid,payload){
     let isValidUuid = TestUuid(uuid);
     if(payload.uuid !== uuid){
@@ -184,7 +135,7 @@ module.exports = (dbUrl,usedDatabase) => {
     }
     let responseFromBl = false;
     if(isValidUuid){
-      generateUuidsAndTimestamps(payload); // Generate UUIDs for new elements
+      bl.generateUuidsAndTimestamps(payload); // Generate UUIDs for new elements
       let valid = validate(payload);
       if(!valid){
         console.log("INVALID QUESTIONNAIRE in putQuestionnaire");
@@ -201,7 +152,7 @@ module.exports = (dbUrl,usedDatabase) => {
     }
     return responseFromBl;
   }
-  
+
   async function getQuestions(lang,path){
     let responseFromBl = false;
     responseFromBl = await bl.getQuestions(lang,path);
